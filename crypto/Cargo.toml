@@ -1,0 +1,11 @@
+[package]
+name = "crypto"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+ed25519 = "1.5.2"
+libsodium-sys-stable = {version = "1.19.22", features = ["minimal"]}
+dryoc = "0.3.12"
