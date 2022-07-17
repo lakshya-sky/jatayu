@@ -1,5 +1,5 @@
 mod local_template;
-mod consensus;
+pub mod consensus;
 
 pub use local_template::{default_local, Local};
 

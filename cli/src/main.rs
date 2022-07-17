@@ -1,6 +1,8 @@
 use std::path::Path;
+use std::slice::SliceIndex;
 use std::{env, fs, path::PathBuf};
 
+use algod_config::consensus::{self};
 use clap::Parser;
 use data::bookkeeping::genesis;
 use rand::prelude::*;
@@ -47,6 +49,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 fn run(args: Args) -> Result<(), Box<dyn std::error::Error>> {
+    consensus::init();
     let data_dir = match resolve_data_dir(&args.data_dir) {
         Some(data_dir) => data_dir,
         None => {
@@ -73,6 +76,7 @@ fn run(args: Args) -> Result<(), Box<dyn std::error::Error>> {
     file_lock.lock().expect("failed to lock algod.lock, is an instance of algod already running on this data directory?");
 
     let config = algod_config::load_config_from_disk(&data_dir)?;
+    algod_config::consensus::load_configurable_consensus_protocols(data_dir)?;
     Ok(())
 }
 

@@ -12,6 +12,6 @@ rand = "0.8.5"
 serde = { version = "1.0.138", features = ["derive"] }
 serde_json = "1.0.82"
 #local pkgs
-algod_config = { package= "config", path = '../config' }
+algod_config = { package = "config", path = '../config' }
 data = { path = '../data' }
 protocol = { path = '../protocol' }
