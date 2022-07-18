@@ -1,4 +1,6 @@
-use crate::basics;
+use std::collections::HashMap;
+
+use crate::basics::{self, AccountData, Address};
 use protocol::{ConsensusVersion, NetworkId};
 use serde::{Deserialize, Serialize};
 
@@ -6,19 +8,19 @@ use serde::{Deserialize, Serialize};
 #[serde(default)]
 pub struct Genesis {
     #[serde(rename = "id")]
-    schema_id: String,
-    network: NetworkId,
-    proto: ConsensusVersion,
+    pub schema_id: String,
+    pub network: NetworkId,
+    pub proto: ConsensusVersion,
     #[serde(rename = "alloc")]
-    allocation: Vec<GenesisAllocation>,
+    pub allocation: Vec<GenesisAllocation>,
     #[serde(rename = "rwd")]
-    rewards_pool: String,
+    pub rewards_pool: String,
     #[serde(rename = "fees")]
-    fee_sink: String,
-    comment: String,
-    timestamp: u32,
+    pub fee_sink: String,
+    pub comment: String,
+    pub timestamp: u32,
     #[serde(rename = "devmode")]
-    dev_mode: bool,
+    pub dev_mode: bool,
 }
 
 impl Genesis {
@@ -29,9 +31,17 @@ impl Genesis {
 
 #[derive(Serialize, Deserialize, Debug, Default)]
 #[serde(default)]
-struct GenesisAllocation {
+pub struct GenesisAllocation {
     #[serde(rename = "addr")]
-    address: String,
-    comment: String,
-    state: basics::AccountData,
+    pub address: String,
+    pub comment: String,
+    pub state: basics::AccountData,
+}
+
+#[derive(Debug, Default)]
+pub struct GenesisBalances {
+    pub balances: HashMap<Address, AccountData>,
+    pub fee_sink: Address,
+    pub rewards_pool: Address,
+    pub timestamp: i64,
 }

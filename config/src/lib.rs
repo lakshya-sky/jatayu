@@ -1,5 +1,5 @@
-mod local_template;
 pub mod consensus;
+mod local_template;
 
 pub use local_template::{default_local, Local};
 
@@ -33,7 +33,7 @@ const ConfigFilename: &str = "config.json";
 const PhonebookFilename: &str = "phonebook.json"; // No longer used in product - still in tests
 
 // LedgerFilenamePrefix is the prefix of the name of the ledger database files
-const LedgerFilenamePrefix: &str = "ledger";
+pub const LEDGER_FILENAME_PREFIX: &str = "ledger";
 
 // CrashFilename is the name of the agreement database file.
 // It is used to recover from node crashes.
