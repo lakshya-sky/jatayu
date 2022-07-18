@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use super::units;
 use crypto::{curve25519, onetimesig, vrf};
 
-#[derive(Serialize, Deserialize, Debug, Default)]
+#[derive(Serialize, Deserialize, Debug, Default, Clone)]
 #[serde(default)]
 pub struct AccountData {
     #[serde(rename = "onl")]

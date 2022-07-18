@@ -11,3 +11,4 @@ sha2 = { version = "0.10.2" }
 config = { path = '../config' }
 crypto = { path = '../crypto' }
 data = { path = '../data' }
+util = { path = '../util' }

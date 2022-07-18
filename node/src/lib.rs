@@ -32,17 +32,8 @@ impl AlgorandFullNode {
         let genesis_dir = Path::join(&root_path, &genesis_id);
         let ledger_pathname_prefix = Path::join(&genesis_dir, config::LEDGER_FILENAME_PREFIX);
         let _ = fs::create_dir(&genesis_dir).expect("Unable to create genesis directory");
-        let gen_alloc = boot_strap_data(genesis)?;
+        let gen_alloc = genesis.balances()?;
+        let crypto_pool = util::execpool::make_pool();
         todo!();
     }
-}
-
-fn boot_strap_data(
-    genesis: &bookkeeping::genesis::Genesis,
-) -> NodeResult<bookkeeping::genesis::GenesisBalances> {
-    //let gen_alloc = Default::default();
-    for entry in genesis.allocation.iter() {
-        let addr = data::basics::unmarshal_checksum_address(&entry.address);
-    }
-    todo!()
 }
