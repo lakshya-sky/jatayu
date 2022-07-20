@@ -33,7 +33,8 @@ impl AlgorandFullNode {
         let ledger_pathname_prefix = Path::join(&genesis_dir, config::LEDGER_FILENAME_PREFIX);
         let _ = fs::create_dir(&genesis_dir).expect("Unable to create genesis directory");
         let gen_alloc = genesis.balances()?;
-        let crypto_pool = util::execpool::make_pool();
+        let crypto_pool = util::execpool::Pool::new();
+
         todo!();
     }
 }
