@@ -3,7 +3,6 @@ use std::{collections::HashMap, error::Error};
 use crate::{
     basics::{self, AccountData, Address},
     bookkeeping::block::{self, RewardsState},
-    committee,
 };
 use crypto::util::HashDigest;
 use protocol::{ConsensusVersion, NetworkId};
@@ -68,6 +67,18 @@ impl Genesis {
             rewards_pool,
             self.timestamp,
         ))
+    }
+}
+
+impl msgp::Marshaler for Genesis {
+    fn marshal_msg(&self, _buf: Option<Vec<u8>>) -> Vec<u8> {
+        rmp_serde::to_vec(self).unwrap()
+    }
+}
+
+impl crypto::util::Hashable for Genesis {
+    fn hash_id(&self) -> protocol::HashId {
+        protocol::GENESIS
     }
 }
 
@@ -138,22 +149,21 @@ pub fn make_genesis_block(
         genesis_rewards_state.rewards_rate = initial_rewards / params.rewards_rate_refresh_interval;
     }
     let mut blk = block::Block {
-        header: block::BlockHeader {
-            seed: committee::Seed::from(genesis_hash),
-            txn_commitments: block::TxnCommitments{
-                native_sha512_256_commitment: 
-
-            },
-            timestamp: (),
-            genesis_id: (),
-            genesis_hash: (),
-            rewards_state: (),
-            upgrade_state: (),
-            upgrade_vote: (),
-            txn_counter: (),
-            participation_updates: (),
-            ..Default::default()
-        },
+        //header: block::BlockHeader {
+        //    seed: committee::Seed::from(genesis_hash),
+        //    txn_commitments: block::TxnCommitments{
+        //        native_sha512_256_commitment:
+        //    },
+        //    timestamp: (),
+        //    genesis_id: (),
+        //    genesis_hash: (),
+        //    rewards_state: (),
+        //    upgrade_state: (),
+        //    upgrade_vote: (),
+        //    txn_counter: (),
+        //    participation_updates: (),
+        //    ..Default::default()
+        //},
         ..Default::default()
     };
     if params.support_genesis_hash {

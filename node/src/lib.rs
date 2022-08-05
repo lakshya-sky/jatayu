@@ -26,7 +26,7 @@ impl AlgorandFullNode {
         genesis: &bookkeeping::genesis::Genesis,
     ) -> NodeResult<Self> {
         let genesis_id = genesis.id();
-        let genesis_hash = crypto::util::hash_obj(&genesis);
+        let genesis_hash = crypto::util::hash_obj(genesis);
         let dev_mode = genesis.dev_mode;
         if dev_mode {
             config.disable_networking = true;
@@ -42,8 +42,10 @@ impl AlgorandFullNode {
             crypto_pool.clone(),
             util::execpool::Priority::LowPriority,
         );
-        let high_priority_backlog =
-            util::execpool::Backlog::new(crypto_pool.clone(), util::execpool::Priority::HighPriority);
+        let high_priority_backlog = util::execpool::Backlog::new(
+            crypto_pool.clone(),
+            util::execpool::Priority::HighPriority,
+        );
 
         Ok(Self {
             config,

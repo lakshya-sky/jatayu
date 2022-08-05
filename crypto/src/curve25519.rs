@@ -20,7 +20,7 @@ pub type MaterDerivationKey = [u8; MASTER_DERIVATION_KEY_LEN];
 type PrivateKey = Ed25519PrivateKey;
 type PublicKey = Ed25519PublicKey;
 
-pub fn ed25519Verify(
+pub fn ed25519_verify(
     _public: PublicKey,
     _data: &[u8],
     _sig: Ed25519Signature,
@@ -29,6 +29,6 @@ pub fn ed25519Verify(
     todo!()
 }
 
-pub fn ed25519Sign(_public: PrivateKey, _data: &[u8]) -> bool {
+pub fn ed25519_sign(_public: PrivateKey, _data: &[u8]) -> bool {
     todo!()
 }

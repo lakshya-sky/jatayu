@@ -13,3 +13,5 @@ ed25519 = "1.5.2"
 sha2 = { version = "0.10.2" }
 libsodium-sys-stable = { version = "1.19.22", features = ["minimal"] }
 dryoc = "0.3.12"
+msgp =  {path = "../msgp"}
+protocol = {path="../protocol"}

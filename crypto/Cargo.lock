@@ -149,6 +149,8 @@ dependencies = [
  "dryoc",
  "ed25519",
  "libsodium-sys-stable",
+ "msgp",
+ "protocol",
  "serde",
  "sha2 0.10.2",
 ]
@@ -377,6 +379,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "msgp"
+version = "0.1.0"
+
+[[package]]
 name = "once_cell"
 version = "1.12.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -407,6 +413,14 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dd96a1e8ed2596c337f8eae5f24924ec83f5ad5ab21ea8e455d3566c69fbcaf7"
 dependencies = [
  "unicode-ident",
+]
+
+[[package]]
+name = "protocol"
+version = "0.1.0"
+dependencies = [
+ "msgp",
+ "serde",
 ]
 
 [[package]]
