@@ -2,7 +2,7 @@ use crypto::util::{hash, HashDigest, DIGEST_SIZE};
 
 const CHECKSUM_LENGTH: usize = 4;
 
-#[derive(Debug, Default, Hash, PartialEq, Eq)]
+#[derive(Debug, Default, Hash, PartialEq, Eq, Clone, Copy)]
 pub struct Address(HashDigest);
 
 impl Address {
@@ -25,7 +25,8 @@ impl Address {
         let short_addr_hash = hash(&self.0);
         addr_with_checksum[DIGEST_SIZE..]
             .copy_from_slice(&short_addr_hash[short_addr_hash.len() - CHECKSUM_LENGTH..]);
-        String::from_utf8(addr_with_checksum.to_vec()).expect("failed to make string from address bytes")
+        String::from_utf8(addr_with_checksum.to_vec())
+            .expect("failed to make string from address bytes")
     }
 }
 pub type AddressResult<T> = Result<T, Box<dyn std::error::Error>>;

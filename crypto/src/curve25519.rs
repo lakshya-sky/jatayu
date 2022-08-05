@@ -3,6 +3,17 @@ pub type Ed25519PrivateKey = [u8; 64];
 pub type Ed25519Signature = [u8; 64];
 pub type Ed25519Seed = [u8; 32];
 
+#[derive(Debug, Clone)]
+pub struct Signature(pub Ed25519Signature);
+
+impl Default for Signature {
+    fn default() -> Self {
+        Self([0u8; 64])
+    }
+}
+
+pub const BLANK_SIGNATURE: Signature = Signature([0u8; 64]);
+
 const MASTER_DERIVATION_KEY_LEN: usize = 32;
 pub type MaterDerivationKey = [u8; MASTER_DERIVATION_KEY_LEN];
 

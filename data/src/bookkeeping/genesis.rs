@@ -1,6 +1,11 @@
 use std::{collections::HashMap, error::Error};
 
-use crate::basics::{self, AccountData, Address};
+use crate::{
+    basics::{self, AccountData, Address},
+    bookkeeping::block::{self, RewardsState},
+    committee,
+};
+use crypto::util::HashDigest;
 use protocol::{ConsensusVersion, NetworkId};
 use serde::{Deserialize, Serialize};
 
@@ -97,4 +102,63 @@ impl GenesisBalances {
             timestamp,
         }
     }
+}
+
+pub fn make_genesis_block(
+    proto: ConsensusVersion,
+    genesis_bal: GenesisBalances,
+    genesis_id: String,
+    genesis_hash: HashDigest,
+) -> GenesisResult<block::Block> {
+    let consensus = match config::consensus::CONSENSUS.get().unwrap().read() {
+        Ok(p) => p,
+        Err(e) => return Err(format!("unable to get protocol map {:?}", e).into()),
+    };
+    let params = match consensus.get(&proto) {
+        Some(p) => p,
+        None => return Err(format!("unsupported protocol {}", proto).into()),
+    };
+
+    let mut genesis_rewards_state = RewardsState {
+        fee_sink: genesis_bal.fee_sink,
+        rewards_pool: genesis_bal.rewards_pool,
+        rewards_recalculation_round: params.rewards_rate_refresh_interval,
+        ..Default::default()
+    };
+    let initial_rewards = genesis_bal
+        .balances
+        .get(&genesis_bal.rewards_pool)
+        .unwrap()
+        .microalgos
+        .0;
+    if params.initial_rewards_rate_calculation {
+        genesis_rewards_state.rewards_rate = initial_rewards.saturating_sub(params.min_balance)
+            / params.rewards_rate_refresh_interval;
+    } else {
+        genesis_rewards_state.rewards_rate = initial_rewards / params.rewards_rate_refresh_interval;
+    }
+    let mut blk = block::Block {
+        header: block::BlockHeader {
+            seed: committee::Seed::from(genesis_hash),
+            txn_commitments: block::TxnCommitments{
+                native_sha512_256_commitment: 
+
+            },
+            timestamp: (),
+            genesis_id: (),
+            genesis_hash: (),
+            rewards_state: (),
+            upgrade_state: (),
+            upgrade_vote: (),
+            txn_counter: (),
+            participation_updates: (),
+            ..Default::default()
+        },
+        ..Default::default()
+    };
+    if params.support_genesis_hash {
+        blk.header.genesis_hash = genesis_hash;
+    }
+
+    todo!();
 }
