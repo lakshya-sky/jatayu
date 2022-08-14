@@ -9,7 +9,7 @@ fn to_be_hashed(&self) -> (protocol::HashId, Vec<u8>) {
     (<Self as Hashable>::hash_id(self), protocol::encode(self))
 }
 */
-pub trait Hashable: msgp::Marshaler {
+pub trait MsgpHashable: msgp::Marshaler {
     fn to_be_hashed(&self) -> (protocol::HashId, Vec<u8>)
     where
         Self: Sized,
@@ -20,7 +20,7 @@ pub trait Hashable: msgp::Marshaler {
     fn hash_id(&self) -> protocol::HashId;
 }
 
-pub fn hash_rep(hashable: &impl Hashable) -> Vec<u8> {
+pub fn hash_rep(hashable: &impl MsgpHashable) -> Vec<u8> {
     let (hash_id, data) = hashable.to_be_hashed();
     let hash_id_bytes = hash_id.bytes();
     let mut hashed = Vec::with_capacity(hash_id_bytes.len() + data.len());
@@ -35,7 +35,7 @@ pub fn sha256(data: &[u8; 32]) -> HashDigest {
     output
 }
 
-pub fn hash_obj(hashable: &impl Hashable) -> HashDigest {
+pub fn hash_obj(hashable: &impl MsgpHashable) -> HashDigest {
     hash(&hash_rep(hashable))
 }
 

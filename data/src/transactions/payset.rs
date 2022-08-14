@@ -1,4 +1,4 @@
-use crypto::util::{HashDigest, Hashable};
+use crypto::util::{HashDigest, MsgpHashable};
 
 use super::signedtxn::SignedTxnInBlock;
 
@@ -11,7 +11,7 @@ impl msgp::Marshaler for PaySet {
     }
 }
 
-impl Hashable for PaySet {
+impl MsgpHashable for PaySet {
     fn hash_id(&self) -> protocol::HashId {
         protocol::PAYSET_FLAT
     }

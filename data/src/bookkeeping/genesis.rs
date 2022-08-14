@@ -76,7 +76,7 @@ impl msgp::Marshaler for Genesis {
     }
 }
 
-impl crypto::util::Hashable for Genesis {
+impl crypto::util::MsgpHashable for Genesis {
     fn hash_id(&self) -> protocol::HashId {
         protocol::GENESIS
     }
@@ -171,4 +171,15 @@ pub fn make_genesis_block(
     }
 
     todo!();
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn marshal_unmarshal_genesis_allocation() {
+        let gen_alloc = GenesisAllocation::default();
+        dbg!(hex::encode(rmp_serde::to_vec_named(&gen_alloc).unwrap()));
+    }
 }
