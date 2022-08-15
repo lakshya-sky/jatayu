@@ -1,8 +1,9 @@
 use crypto::util::{hash, HashDigest, DIGEST_SIZE};
+use serde::{Deserialize, Serialize};
 
 const CHECKSUM_LENGTH: usize = 4;
 
-#[derive(Debug, Default, Hash, PartialEq, Eq, Clone, Copy)]
+#[derive(Debug, Default, Hash, PartialEq, Eq, Clone, Copy, Serialize, Deserialize)]
 pub struct Address(HashDigest);
 
 impl Address {

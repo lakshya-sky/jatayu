@@ -1,15 +1,10 @@
 use crypto::util::{HashDigest, MsgpHashable};
+use serde::{Deserialize, Serialize};
 
 use super::signedtxn::SignedTxnInBlock;
 
-#[derive(Default, Debug)]
+#[derive(Serialize, Deserialize, Default, Debug)]
 pub struct PaySet(pub Vec<SignedTxnInBlock>);
-
-impl msgp::Marshaler for PaySet {
-    fn marshal_msg(&self, buf: Option<Vec<u8>>) -> Vec<u8> {
-        todo!()
-    }
-}
 
 impl MsgpHashable for PaySet {
     fn hash_id(&self) -> protocol::HashId {
@@ -27,5 +22,18 @@ impl PaySet {
             payset = Self(Default::default());
         }
         crypto::util::hash_obj(&payset)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use msgp::Marshaler;
+    #[test]
+    fn marshal_payset() {
+        let payset = PaySet::default();
+        let mut buffer = vec![];
+        payset.marshal_msg(&mut buffer);
+        assert_eq!(hex::encode(buffer), "90");
     }
 }

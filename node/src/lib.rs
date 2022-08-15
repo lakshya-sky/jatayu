@@ -26,7 +26,7 @@ impl AlgorandFullNode {
         genesis: &bookkeeping::genesis::Genesis,
     ) -> NodeResult<Self> {
         let genesis_id = genesis.id();
-        let genesis_hash = crypto::util::hash_obj(genesis);
+        let genesis_hash = genesis.hash();
         let dev_mode = genesis.dev_mode;
         if dev_mode {
             config.disable_networking = true;

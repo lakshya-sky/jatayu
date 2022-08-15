@@ -45,7 +45,7 @@ pub struct BlockHeader {
     pub branch: BlockHash,
     pub seed: committee::Seed,
     pub txn_commitments: TxnCommitments,
-    pub timestamp: u64,
+    pub timestamp: u32,
     pub genesis_id: String,
     pub genesis_hash: crypto::util::HashDigest,
     pub rewards_state: RewardsState,

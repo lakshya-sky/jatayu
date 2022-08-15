@@ -1,3 +1,9 @@
-pub trait Marshaler {
-    fn marshal_msg(&self, bytes: Option<Vec<u8>>) -> Vec<u8>;
+pub trait Marshaler: serde::Serialize {
+    fn marshal_msg(&self, bytes: &mut Vec<u8>);
+}
+
+impl<T: serde::Serialize> Marshaler for T {
+    fn marshal_msg(&self, bytes: &mut Vec<u8>) {
+        bytes.extend(rmp_serde::to_vec_named(self).unwrap());
+    }
 }

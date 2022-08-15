@@ -1,10 +1,13 @@
+use serde::{Deserialize, Serialize};
+use serde_big_array::BigArray;
+
 pub type Ed25519PublicKey = [u8; 32];
 pub type Ed25519PrivateKey = [u8; 64];
 pub type Ed25519Signature = [u8; 64];
 pub type Ed25519Seed = [u8; 32];
 
-#[derive(Debug, Clone)]
-pub struct Signature(pub Ed25519Signature);
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Signature(#[serde(with = "BigArray")] pub Ed25519Signature);
 
 impl Default for Signature {
     fn default() -> Self {

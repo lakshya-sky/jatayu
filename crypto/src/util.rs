@@ -4,11 +4,6 @@ use protocol;
 pub const DIGEST_SIZE: usize = 32;
 pub type HashDigest = [u8; DIGEST_SIZE];
 
-/*
-fn to_be_hashed(&self) -> (protocol::HashId, Vec<u8>) {
-    (<Self as Hashable>::hash_id(self), protocol::encode(self))
-}
-*/
 pub trait MsgpHashable: msgp::Marshaler {
     fn to_be_hashed(&self) -> (protocol::HashId, Vec<u8>)
     where

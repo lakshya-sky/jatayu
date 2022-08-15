@@ -68,11 +68,9 @@ impl Genesis {
             self.timestamp,
         ))
     }
-}
 
-impl msgp::Marshaler for Genesis {
-    fn marshal_msg(&self, _buf: Option<Vec<u8>>) -> Vec<u8> {
-        rmp_serde::to_vec(self).unwrap()
+    pub fn hash(&self) -> HashDigest {
+        crypto::util::hash_obj(self)
     }
 }
 
@@ -149,37 +147,44 @@ pub fn make_genesis_block(
         genesis_rewards_state.rewards_rate = initial_rewards / params.rewards_rate_refresh_interval;
     }
     let mut blk = block::Block {
-        //header: block::BlockHeader {
-        //    seed: committee::Seed::from(genesis_hash),
-        //    txn_commitments: block::TxnCommitments{
-        //        native_sha512_256_commitment:
-        //    },
-        //    timestamp: (),
-        //    genesis_id: (),
-        //    genesis_hash: (),
-        //    rewards_state: (),
-        //    upgrade_state: (),
-        //    upgrade_vote: (),
-        //    txn_counter: (),
-        //    participation_updates: (),
-        //    ..Default::default()
-        //},
+        header: block::BlockHeader {
+            //seed: committee::Seed::from(genesis_hash),
+            //    txn_commitments: block::TxnCommitments{
+            //        native_sha512_256_commitment:
+            //    },
+            timestamp: genesis_bal.timestamp,
+            genesis_id,
+            //    genesis_hash: (),
+            rewards_state: genesis_rewards_state,
+            //    upgrade_state: (),
+            //    upgrade_vote: (),
+            //    txn_counter: (),
+            //    participation_updates: (),
+            //    ..Default::default()
+            //},
+            ..Default::default()
+        },
         ..Default::default()
     };
     if params.support_genesis_hash {
         blk.header.genesis_hash = genesis_hash;
     }
-
-    todo!();
+    Ok(blk)
 }
 
 #[cfg(test)]
 mod test {
     use super::*;
+    use msgp::Marshaler;
 
     #[test]
     fn marshal_unmarshal_genesis_allocation() {
         let gen_alloc = GenesisAllocation::default();
-        dbg!(hex::encode(rmp_serde::to_vec_named(&gen_alloc).unwrap()));
+        let mut buffer = vec![];
+        gen_alloc.marshal_msg(&mut buffer);
+        assert_eq!(
+            hex::encode(buffer),
+            "83a461646472a0a7636f6d6d656e74a0a5737461746580"
+        );
     }
 }
