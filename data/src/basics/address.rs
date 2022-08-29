@@ -13,9 +13,11 @@ impl Address {
         check_sum.clone_from_slice(&short_addr_hash[(short_addr_hash.len() - CHECKSUM_LENGTH)..]);
         check_sum
     }
+
     pub fn len(&self) -> usize {
         self.0.len()
     }
+
     pub fn clone_from_slice(&mut self, slice: &[u8]) {
         self.0.clone_from_slice(slice);
     }
@@ -41,7 +43,7 @@ pub fn unmarshal_checksum_address(address: &String) -> AddressResult<Address> {
         if decoded.len() < short.len() {
             return Err(format!("decoded bad addr: {}", address).into());
         }
-        short.clone_from_slice(decoded.as_slice());
+        short.clone_from_slice(&decoded[..short.len()]);
         let incoming_checksum = &decoded[decoded.len() - CHECKSUM_LENGTH..];
         let calculated_checksum = short.get_checksum();
         if !calculated_checksum.eq(incoming_checksum) {

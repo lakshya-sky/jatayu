@@ -283,6 +283,7 @@ dependencies = [
  "msgp",
  "protocol",
  "serde",
+ "serde-big-array",
  "sha2 0.10.2",
 ]
 
@@ -329,6 +330,7 @@ dependencies = [
  "base64",
  "config",
  "crypto",
+ "hex",
  "ledger",
  "msgp",
  "protocol",
@@ -336,6 +338,7 @@ dependencies = [
  "rmp-serde",
  "serde",
  "serde_json",
+ "util",
 ]
 
 [[package]]
@@ -571,6 +574,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "hex"
+version = "0.4.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
+
+[[package]]
 name = "idna"
 version = "0.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -720,6 +729,11 @@ dependencies = [
 [[package]]
 name = "msgp"
 version = "0.1.0"
+dependencies = [
+ "rmp",
+ "rmp-serde",
+ "serde",
+]
 
 [[package]]
 name = "node"
@@ -1040,6 +1054,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1578c6245786b9d168c5447eeacfb96856573ca56c9d68fdcf394be134882a47"
 dependencies = [
  "serde_derive",
+]
+
+[[package]]
+name = "serde-big-array"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3323f09a748af288c3dc2474ea6803ee81f118321775bffa3ac8f7e65c5e90e7"
+dependencies = [
+ "serde",
 ]
 
 [[package]]

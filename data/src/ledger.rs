@@ -14,7 +14,11 @@ pub fn load_ledger(
     block_listeners: Vec<Box<dyn BlockListener>>,
     config: Local,
 ) {
+    use msgp::Marshaler;
     let gen_block =
-        genesis::make_genesis_block(genesis_proto, genesis_bal, genesis_id, genesis_hash);
+        genesis::make_genesis_block(genesis_proto, genesis_bal, genesis_id, genesis_hash).unwrap();
+    let mut buffer = vec![];
+    gen_block.marshal_msg(&mut buffer);
+    println!("{:?}", buffer);
     todo!()
 }

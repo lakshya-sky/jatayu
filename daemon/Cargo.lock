@@ -214,7 +214,10 @@ dependencies = [
  "dryoc",
  "ed25519",
  "libsodium-sys-stable",
+ "msgp",
+ "protocol",
  "serde",
+ "serde-big-array",
  "sha2 0.10.2",
 ]
 
@@ -261,10 +264,15 @@ dependencies = [
  "base64",
  "config",
  "crypto",
+ "hex",
  "ledger",
+ "msgp",
  "protocol",
+ "rmp",
+ "rmp-serde",
  "serde",
  "serde_json",
+ "util",
 ]
 
 [[package]]
@@ -467,6 +475,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "hex"
+version = "0.4.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
+
+[[package]]
 name = "idna"
 version = "0.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -604,6 +618,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "msgp"
+version = "0.1.0"
+dependencies = [
+ "rmp",
+ "rmp-serde",
+ "serde",
+]
+
+[[package]]
 name = "node"
 version = "0.1.0"
 dependencies = [
@@ -613,6 +636,15 @@ dependencies = [
  "digest 0.10.3",
  "sha2 0.10.2",
  "util",
+]
+
+[[package]]
+name = "num-traits"
+version = "0.2.15"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "578ede34cf02f8924ab9447f50c28075b4d3e5b269972345e7e0372b38c6cdcd"
+dependencies = [
+ "autocfg",
 ]
 
 [[package]]
@@ -659,6 +691,12 @@ dependencies = [
  "smallvec",
  "windows-sys",
 ]
+
+[[package]]
+name = "paste"
+version = "1.0.8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9423e2b32f7a043629287a536f21951e8c6a82482d0acb1eeebfc90bc2225b22"
 
 [[package]]
 name = "percent-encoding"
@@ -717,6 +755,7 @@ dependencies = [
 name = "protocol"
 version = "0.1.0"
 dependencies = [
+ "msgp",
  "serde",
 ]
 
@@ -769,6 +808,28 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3582f63211428f83597b51b2ddb88e2a91a9d52d12831f9d08f5e624e8977422"
 
 [[package]]
+name = "rmp"
+version = "0.8.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "44519172358fd6d58656c86ab8e7fbc9e1490c3e8f14d35ed78ca0dd07403c9f"
+dependencies = [
+ "byteorder",
+ "num-traits",
+ "paste",
+]
+
+[[package]]
+name = "rmp-serde"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "25786b0d276110195fa3d6f3f31299900cf71dfbd6c28450f3f58a0e7f7a347e"
+dependencies = [
+ "byteorder",
+ "rmp",
+ "serde",
+]
+
+[[package]]
 name = "rustls"
 version = "0.20.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -818,6 +879,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0171ebb889e45aa68b44aee0859b3eede84c6f5f5c228e6f140c0b2a0a46cad6"
 dependencies = [
  "serde_derive",
+]
+
+[[package]]
+name = "serde-big-array"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3323f09a748af288c3dc2474ea6803ee81f118321775bffa3ac8f7e65c5e90e7"
+dependencies = [
+ "serde",
 ]
 
 [[package]]

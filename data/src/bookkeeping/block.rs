@@ -1,19 +1,20 @@
 use crate::{basics, committee, transactions};
+use serde::{Serialize, Deserialize};
 
 pub type BlockHash = crypto::util::HashDigest;
 
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Serialize, Deserialize)]
 pub struct TxnCommitments {
     pub native_sha512_256_commitment: crypto::util::HashDigest,
     pub sha256_commitment: crypto::util::HashDigest,
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Serialize, Deserialize)]
 pub struct ParticipationUpdates {
     expired_participation_accounts: Vec<basics::Address>,
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Serialize, Deserialize)]
 pub struct RewardsState {
     pub fee_sink: basics::Address,
     pub rewards_pool: basics::Address,
@@ -23,14 +24,14 @@ pub struct RewardsState {
     pub rewards_recalculation_round: basics::Round,
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Serialize, Deserialize)]
 pub struct UpgradeVote {
     upgrade_propose: protocol::ConsensusVersion,
     upgrade_delay: basics::Round,
     upgrade_approve: bool,
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Serialize, Deserialize)]
 pub struct UpgradeState {
     current_protocol: protocol::ConsensusVersion,
     next_protocol: protocol::ConsensusVersion,
@@ -39,7 +40,7 @@ pub struct UpgradeState {
     next_protocol_switch_on: basics::Round,
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Serialize, Deserialize)]
 pub struct BlockHeader {
     pub round: basics::Round,
     pub branch: BlockHash,
@@ -55,7 +56,7 @@ pub struct BlockHeader {
     pub participation_updates: ParticipationUpdates,
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Serialize, Deserialize)]
 pub struct Block {
     pub header: BlockHeader,
     pub payset: transactions::payset::PaySet,

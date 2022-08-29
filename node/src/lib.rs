@@ -35,7 +35,10 @@ impl AlgorandFullNode {
         let account_listner = TopAccountListener::new();
         let genesis_dir = Path::join(&root_dir, &genesis_id);
         let ledger_pathname_prefix = Path::join(&genesis_dir, config::LEDGER_FILENAME_PREFIX);
-        let _ = fs::create_dir(&genesis_dir).expect("Unable to create genesis directory");
+        let create_dir_result = fs::create_dir(&genesis_dir);
+        if let Err(e) = create_dir_result && e.kind() != std::io::ErrorKind::AlreadyExists{
+            panic!("Unable to create genesis directory");
+        }
         let gen_alloc = genesis.balances()?;
         let crypto_pool = DedicatedExecutor::new("node_crypto_pool", None);
         let low_priority_backlog = util::execpool::Backlog::new(
@@ -46,6 +49,8 @@ impl AlgorandFullNode {
             crypto_pool.clone(),
             util::execpool::Priority::HighPriority,
         );
+        println!("Loading Ledger");
+        let ledger = data::ledger::load_ledger(ledger_pathname_prefix.to_str().unwrap().to_string(), false, genesis.proto.clone(), gen_alloc, genesis_id.clone(), genesis_hash, vec![], config.clone());
 
         Ok(Self {
             config,

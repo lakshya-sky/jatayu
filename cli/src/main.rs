@@ -83,12 +83,13 @@ fn run(args: Args) -> Result<(), Box<dyn std::error::Error>> {
 
     let config = algod_config::load_config_from_disk(&data_dir)?;
     algod_config::consensus::load_configurable_consensus_protocols(&data_dir)?;
-    daemon::jatayud::ServerInit {
+    let init = daemon::jatayud::ServerInit {
         root_path: data_dir.clone(),
         genesis,
         genesis_text,
         cfg: config,
     };
+    let _ = daemon::jatayud::Server::new(init);
 
     Ok(())
 }

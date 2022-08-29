@@ -199,6 +199,7 @@ fn merge(c: &ConsensusProtocols, t: ConsensusProtocols) -> ConsensusProtocols {
                 }
             }
         } else {
+            dbg!(&consensus_version);
             static_consensus.insert(consensus_version.clone(), consensus_params);
         }
     }
@@ -436,6 +437,7 @@ fn init_consensus_protocols(consensus: &mut ConsensusProtocols) {
     v32.max_apps_opted_in = 0;
     v31.approved_upgrades
         .insert(CONSENSUS_V32.to_string(), 140000);
+
     let mut v_future = v32.clone();
     v_future.approved_upgrades = Default::default();
     v_future.agreement_filter_timeout_period0 = Duration::from_secs(4);
@@ -448,6 +450,7 @@ fn init_consensus_protocols(consensus: &mut ConsensusProtocols) {
     v_future.min_inner_appl_version = 4;
     v_future.unify_inner_tx_i_ds = true;
     v_future.enable_sha256_txn_commitment_header = true;
+
     consensus.insert(CONSENSUS_V7.to_string(), v7);
     consensus.insert(CONSENSUS_V8.to_string(), v8);
     consensus.insert(CONSENSUS_V9.to_string(), v9);
@@ -476,6 +479,7 @@ fn init_consensus_protocols(consensus: &mut ConsensusProtocols) {
     consensus.insert(CONSENSUS_V32.to_string(), v32);
     consensus.insert(CONSENSUS_VFUTURE.to_string(), v_future);
 }
+
 fn check_set_max<T: PartialOrd>(v: T, c: &mut T) {
     if v > *c {
         *c = v;
@@ -489,11 +493,13 @@ static MAX_LOGIC_SIG_MAX_SIZE: OnceCell<u64> = OnceCell::new();
 static MAX_TXN_NOTE_BYTES: OnceCell<i32> = OnceCell::new();
 static MAX_TX_GROUP_SIZE: OnceCell<i32> = OnceCell::new();
 static MAX_BYTES_KEY_VALUE_LEN: OnceCell<i32> = OnceCell::new();
+
 static MAX_EXTRA_APP_PROGRAM_LEN: OnceCell<i32> = OnceCell::new();
 static MAX_AVAILABLE_APP_PROGRAM_LEN: OnceCell<i32> = OnceCell::new();
 static MAX_LOG_CALLS: OnceCell<i32> = OnceCell::new();
 static MAX_INNER_TRANSACTIONS_PER_DELTA: OnceCell<i32> = OnceCell::new();
 static MAX_PROPOSED_EXPIRED_ONLINE_ACCOUNTS: OnceCell<i32> = OnceCell::new();
+
 fn check_set_alloc_bounds(consensus: &ConsensusProtocols) {
     let mut max_vote_threshold = 0u64;
     let mut max_eval_delta_keys = 0i32;
