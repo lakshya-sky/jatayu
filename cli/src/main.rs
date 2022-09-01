@@ -81,7 +81,10 @@ fn run(args: Args) -> Result<(), Box<dyn std::error::Error>> {
         "failed to lock algod.lock, is an instance of algod already running on this data directory?"
     );
 
-    let config = algod_config::load_config_from_disk(&data_dir)?;
+    let config = match algod_config::load_config_from_disk(&data_dir) {
+        Ok(c) => c,
+        Err(e) => panic!("Cannot load config: {:?}", e),
+    };
     algod_config::consensus::load_configurable_consensus_protocols(&data_dir)?;
     let init = daemon::jatayud::ServerInit {
         root_path: data_dir.clone(),

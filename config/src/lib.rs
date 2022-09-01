@@ -60,9 +60,21 @@ pub fn load_config_from_disk<S: AsRef<Path>>(custom: S) -> ConfigResult<Local> {
     load_config_from_file(Path::join(custom.as_ref(), ConfigFilename))
 }
 
+fn load_config_from_file<P: AsRef<Path>>(config_file: P) -> ConfigResult<Local> {
+    let mut c = default_local();
+    c = merge_config_file(config_file.as_ref(), c)?;
+    c = migrate(c)?;
+    Ok(c)
+}
+
 fn merge_config_file(config_file: &Path, c: Local) -> ConfigResult<Local> {
-    let f = std::fs::File::open(config_file)?;
-    load_config(&f, c)
+    match std::fs::File::open(config_file) {
+        Ok(f) => load_config(&f, c),
+        Err(e) => match e.kind() {
+            std::io::ErrorKind::NotFound => Ok(c),
+            _ => Err(e.into()),
+        },
+    }
 }
 
 fn load_config(config_file: &std::fs::File, c: Local) -> ConfigResult<Local> {
@@ -71,12 +83,5 @@ fn load_config(config_file: &std::fs::File, c: Local) -> ConfigResult<Local> {
 }
 
 fn migrate(c: Local) -> ConfigResult<Local> {
-    Ok(c)
-}
-
-fn load_config_from_file<P: AsRef<Path>>(config_file: P) -> ConfigResult<Local> {
-    let mut c = default_local();
-    c = merge_config_file(config_file.as_ref(), c)?;
-    c = migrate(c)?;
     Ok(c)
 }
