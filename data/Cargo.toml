@@ -20,3 +20,4 @@ ledger = { path = '../ledger' }
 msgp = {path = '../msgp'}
 protocol = { path = '../protocol' }
 util = {path='../util'}
+macros = {path='../macros'}

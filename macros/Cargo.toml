@@ -1,0 +1,30 @@
+[package]
+name = "macros"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+darling = "0.14.0"
+proc-macro2 = "1.0.1"
+quote = "1.0.0"
+
+[dependencies.syn]
+features = [
+    # "extra-traits", # Only for debugging
+    "full",
+    "parsing",
+]
+version = "1.0.3"
+
+[dev-dependencies]
+pretty_assertions = "1.0.0"
+rustversion = "1.0.0"
+serde = {version = "1.0.75", features = ["derive"]}
+serde_json = "1.0.25"
+trybuild = "1.0.14"
+version-sync = "0.9.1"
+
+[lib]
+proc-macro = true 

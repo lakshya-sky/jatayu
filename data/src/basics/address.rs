@@ -8,26 +8,26 @@ pub struct Address(HashDigest);
 
 impl Address {
     pub fn get_checksum(&self) -> [u8; CHECKSUM_LENGTH] {
-        let short_addr_hash = hash(&self.0);
+        let short_addr_hash = hash(&self.0 .0);
         let mut check_sum = [0u8; CHECKSUM_LENGTH];
-        check_sum.clone_from_slice(&short_addr_hash[(short_addr_hash.len() - CHECKSUM_LENGTH)..]);
+        check_sum.clone_from_slice(&short_addr_hash.0[(short_addr_hash.len() - CHECKSUM_LENGTH)..]);
         check_sum
     }
 
-    pub fn len(&self) -> usize {
-        self.0.len()
+    pub const fn len(&self) -> usize {
+        self.0 .0.len()
     }
 
     pub fn clone_from_slice(&mut self, slice: &[u8]) {
-        self.0.clone_from_slice(slice);
+        self.0 .0.clone_from_slice(slice);
     }
 
     pub fn string(&self) -> String {
         let mut addr_with_checksum = [0u8; DIGEST_SIZE + CHECKSUM_LENGTH];
-        addr_with_checksum[..DIGEST_SIZE].copy_from_slice(&self.0);
-        let short_addr_hash = hash(&self.0);
+        addr_with_checksum[..DIGEST_SIZE].copy_from_slice(&self.0 .0);
+        let short_addr_hash = hash(&self.0 .0);
         addr_with_checksum[DIGEST_SIZE..]
-            .copy_from_slice(&short_addr_hash[short_addr_hash.len() - CHECKSUM_LENGTH..]);
+            .copy_from_slice(&short_addr_hash.0[short_addr_hash.len() - CHECKSUM_LENGTH..]);
         String::from_utf8(addr_with_checksum.to_vec())
             .expect("failed to make string from address bytes")
     }

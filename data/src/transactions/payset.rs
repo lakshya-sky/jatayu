@@ -3,6 +3,7 @@ use serde::{Deserialize, Serialize};
 
 use super::signedtxn::SignedTxnInBlock;
 
+#[skip_serializing_default]
 #[derive(Serialize, Deserialize, Default, Debug)]
 pub struct PaySet(pub Vec<SignedTxnInBlock>);
 

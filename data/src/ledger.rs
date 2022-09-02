@@ -19,6 +19,6 @@ pub fn load_ledger(
         genesis::make_genesis_block(genesis_proto, genesis_bal, genesis_id, genesis_hash).unwrap();
     let mut buffer = vec![];
     gen_block.marshal_msg(&mut buffer);
-    println!("Genesis Block Hash: {:?}", buffer);
+    println!("Genesis Block Hash: {}", hex::encode(buffer));
     todo!()
 }

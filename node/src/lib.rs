@@ -11,12 +11,13 @@ pub struct AlgorandFullNode {
     pub config: config::Local,
     pub root_dir: PathBuf,
     pub genesis_id: String,
-    pub genesis_hash: [u8; 32],
+    pub genesis_hash: crypto::util::HashDigest,
     pub dev_mode: bool,
     crypto_pool: DedicatedExecutor,
     low_priority_verification_pool: Backlog,
     high_priority_verification_pool: Backlog,
 }
+
 pub type NodeResult<T> = Result<T, Box<dyn std::error::Error>>;
 
 impl AlgorandFullNode {
@@ -49,8 +50,16 @@ impl AlgorandFullNode {
             crypto_pool.clone(),
             util::execpool::Priority::HighPriority,
         );
-        println!("Loading Ledger");
-        let ledger = data::ledger::load_ledger(ledger_pathname_prefix.to_str().unwrap().to_string(), false, genesis.proto.clone(), gen_alloc, genesis_id.clone(), genesis_hash, vec![], config.clone());
+        let ledger = data::ledger::load_ledger(
+            ledger_pathname_prefix.to_str().unwrap().to_string(),
+            false,
+            genesis.proto.clone(),
+            gen_alloc,
+            genesis_id.clone(),
+            genesis_hash,
+            vec![],
+            config.clone(),
+        );
 
         Ok(Self {
             config,

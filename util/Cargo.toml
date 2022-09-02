@@ -15,3 +15,5 @@ tokio-test = "0.4.2"
 tokio-util = { version = "0.7.3" }
 tracing = "0.1"
 tracing-subscriber = "0.3"
+serde-nothing = "0.1.1"
+serde = "1"

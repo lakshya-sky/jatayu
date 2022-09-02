@@ -50,6 +50,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 fn run(args: Args) -> Result<(), Box<dyn std::error::Error>> {
     consensus::init();
+    println!("Loading Ledger");
     let data_dir = match resolve_data_dir(&args.data_dir) {
         Some(data_dir) => data_dir,
         None => {

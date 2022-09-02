@@ -1,8 +1,22 @@
 use digest::Digest;
 use protocol;
+use serde::{Deserialize, Serialize};
 
 pub const DIGEST_SIZE: usize = 32;
-pub type HashDigest = [u8; DIGEST_SIZE];
+
+#[derive(Serialize, Deserialize, Clone, Copy, Default, Debug, Hash, PartialEq, Eq)]
+pub struct HashDigest(pub [u8; DIGEST_SIZE]);
+
+impl HashDigest {
+    pub const fn len(&self) -> usize {
+        self.0.len()
+    }
+}
+impl From<[u8; DIGEST_SIZE]> for HashDigest {
+    fn from(f: [u8; DIGEST_SIZE]) -> Self {
+        Self(f)
+    }
+}
 
 pub trait MsgpHashable: msgp::Marshaler {
     fn to_be_hashed(&self) -> (protocol::HashId, Vec<u8>)
@@ -27,7 +41,7 @@ pub fn hash_rep(hashable: &impl MsgpHashable) -> Vec<u8> {
 pub fn sha256(data: &[u8; 32]) -> HashDigest {
     let mut output = [0u8; 32];
     output.copy_from_slice(sha2::Sha256::digest(data).as_slice());
-    output
+    output.into()
 }
 
 pub fn hash_obj(hashable: &impl MsgpHashable) -> HashDigest {
@@ -35,5 +49,6 @@ pub fn hash_obj(hashable: &impl MsgpHashable) -> HashDigest {
 }
 
 pub fn hash(data: &[u8]) -> HashDigest {
-    sha2::Sha512_256::digest(data).into()
+    let dg = sha2::Sha512_256::digest(data);
+    HashDigest(dg.into())
 }
